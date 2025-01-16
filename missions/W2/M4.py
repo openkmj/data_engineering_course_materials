@@ -1,5 +1,4 @@
-from multiprocessing import Queue, Process, Event, Pool
-from concurrent.futures import ProcessPoolExecutor
+from multiprocessing import Queue, Process, Event
 import time
 
 
@@ -13,7 +12,7 @@ def consume_task(in_queue: Queue, out_queue: Queue, idx: int, stop_event):
     while not in_queue.empty() or not stop_event.is_set():
         try:
             task = in_queue.get_nowait()
-            time.sleep(0.1)
+            time.sleep(0.5)
             out_queue.put(f"{task} is done by Process-{idx}")
         except:
             continue
@@ -39,6 +38,7 @@ def main():
     [p.start() for p in consumers]
 
     [p.join() for p in providers]
+    # end signal
     stop_event.set()
 
     [p.join() for p in consumers]

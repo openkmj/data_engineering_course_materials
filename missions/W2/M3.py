@@ -23,6 +23,8 @@ def main():
 
     print("pushing items to queue:")
     push_operation(queue, items)
+    # None: Marker for termination
+    # Queue의 Consumer가 하나라면 가능하지만 여러개라면 불가능한 접근.
     queue.put(None)
 
     print("popping items from queue:")
