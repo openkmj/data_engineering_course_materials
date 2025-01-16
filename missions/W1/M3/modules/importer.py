@@ -138,6 +138,7 @@ class WikiWebImporter(WebImporterInterface):
             return data
 
         country_region_table = parse_json(self.COUNTRY_REGION_TABLE_PATH)
+        # TODO: join으로 바꾸기.
         df["Region"] = df["Country"].map(country_region_table)
         return df
 

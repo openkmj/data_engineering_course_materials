@@ -16,6 +16,7 @@ def main():
 
     importer = WikiWebImporter(raw_data_file_path=RAW_DATA_FILE_PATH)
     df = importer.import_data()
+    # extract 직후 validation을 한번 하면 좋겠다.
 
     df = transform_gdp(df)
 
