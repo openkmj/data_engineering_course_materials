@@ -170,3 +170,5 @@ __pycache__
 *.csv
 *.json
 *.sql
+*.tar.gz
+data/
