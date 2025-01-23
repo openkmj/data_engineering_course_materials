@@ -15,4 +15,12 @@
     <name>dfs.datanode.data.dir</name>
     <value>/hadoop/dfs/data</value>
   </property>
+  <property>
+    <name>dfs.client.use.datanode.hostname</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>dfs.datanode.address</name>
+    <value>0.0.0.0:9891</value>
+  </property>
 </configuration>
