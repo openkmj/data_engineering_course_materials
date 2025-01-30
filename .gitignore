@@ -171,4 +171,5 @@ __pycache__
 *.json
 *.sql
 *.tar.gz
+*.tgz
 data/
