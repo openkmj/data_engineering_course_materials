@@ -8,6 +8,7 @@ services:
       - "8080:8080" # Spark Web UI
       - "7077:7077" # Spark Master Port
       - "8088:8088"
+      - "18080:18080" # Spark History Server
     environment:
       - SPARK_MODE=master
     command: >
@@ -22,6 +23,8 @@ services:
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
     depends_on:
       - spark-master
     # command: ["/opt/spark/sbin/start-worker.sh", "spark://spark-master:7077"]
@@ -37,6 +40,59 @@ services:
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
+    depends_on:
+      - spark-master
+    # command: ["/opt/spark/sbin/start-worker.sh", "spark://spark-master:7077"]
+    command: >
+      sh -c "/opt/spark/sbin/start-worker.sh spark://spark-master:7077; tail -f /dev/null"
+    networks:
+      - spark-network
+
+  spark-worker-3:
+    build: .
+    container_name: spark-worker-3
+    hostname: spark-worker-3
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
+    depends_on:
+      - spark-master
+    # command: ["/opt/spark/sbin/start-worker.sh", "spark://spark-master:7077"]
+    command: >
+      sh -c "/opt/spark/sbin/start-worker.sh spark://spark-master:7077; tail -f /dev/null"
+    networks:
+      - spark-network
+
+  spark-worker-4:
+    build: .
+    container_name: spark-worker-4
+    hostname: spark-worker-4
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
+    depends_on:
+      - spark-master
+    # command: ["/opt/spark/sbin/start-worker.sh", "spark://spark-master:7077"]
+    command: >
+      sh -c "/opt/spark/sbin/start-worker.sh spark://spark-master:7077; tail -f /dev/null"
+    networks:
+      - spark-network
+
+  spark-worker-5:
+    build: .
+    container_name: spark-worker-5
+    hostname: spark-worker-5
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
     depends_on:
       - spark-master
     # command: ["/opt/spark/sbin/start-worker.sh", "spark://spark-master:7077"]
@@ -48,3 +104,5 @@ services:
 networks:
   spark-network:
     driver: bridge
+
+# PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook --allow-root --ip=0.0.0.0 --port=8088" pyspark --master yarn
